@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kola_library_app/Bookshelf/book_shelf.dart';
 import 'package:kola_library_app/categorias/categories_screen.dart';
 import 'package:kola_library_app/pages/home_page.dart';
 
@@ -35,6 +36,7 @@ class _BottonNavigationWidgetState extends State<BottonNavigationWidget> {
   static final List<Widget> _sections = [
     HomePage(),
     BookCategoriesgried(),
+    Bookshaelf(),
   ];
 
   @override
@@ -58,12 +60,12 @@ class _BottonNavigationWidgetState extends State<BottonNavigationWidget> {
       // esta seria la clase con estado que nos hara pasar a otra pantalla
       bottomNavigationBar: BottomNavigationBar(
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home, color: const Color.fromARGB(255, 114, 15, 8),), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.home, color: const Color.fromARGB(255, 110, 10, 135),), label: 'Home'),
           BottomNavigationBarItem(
-            icon: Icon(Icons.local_library,color: const Color.fromARGB(255, 120, 12, 4)),
+            icon: Icon(Icons.local_library,color: const Color.fromARGB(255, 91, 4, 120)),
             label: 'My Library',
           ),
-          //BottomNavigationBarItem(icon: Icon(Icons.share), label: 'Share'),
+          BottomNavigationBarItem(icon: Icon(Icons.auto_stories, color: const Color.fromARGB(255, 112, 6, 141),), label: 'My Bookshelf'),
         ],
         // integremos la variable de manejador de estado
         currentIndex: _seletedIndex,

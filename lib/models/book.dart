@@ -1,5 +1,5 @@
-///-- crean el modelo de la clase libro
-// ignore_for_file: dangling_library_doc_comments
+// crean el modelo de la clase libro
+
 
 class Book {
   final int id;
