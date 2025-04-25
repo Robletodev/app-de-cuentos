@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kola_library_app/Bookshelf/book_shelf.dart';
 import 'package:kola_library_app/categorias/categories_screen.dart';
 import 'package:kola_library_app/pages/home_page.dart';
+import 'package:kola_library_app/states/book_shelf_state.dart';
 
 
 void main() => runApp(const MyApp());
@@ -11,11 +13,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return BlocProvider(
+    create: (_) => BookShaelfBloc(BookShelfState([])),
+     child:  MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Koala Library',
-      home: Scaffold(body: BottonNavigationWidget()),
-    );
+      home: Scaffold(
+        // desde aqui es donde incorporamos el manejador de esatdos con block
+        body: const BottonNavigationWidget(), 
+         
+        ),
+    ));
   }
 }
 
