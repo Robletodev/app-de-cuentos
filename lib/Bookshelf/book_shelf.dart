@@ -2,6 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kola_library_app/book_details/book_details.dart';
+import 'package:kola_library_app/models/book.dart';
+import 'package:kola_library_app/services/book_services.dart';
 //import 'package:kola_library_app/models/book.dart';
 import 'package:kola_library_app/states/book_shelf_state.dart';
 
@@ -39,16 +42,46 @@ class Bookshaelf extends StatelessWidget {
   }
 }
 
-class BookCoverImageItem extends StatelessWidget {
+class BookCoverImageItem extends StatefulWidget {
   final int _bookId;
   const BookCoverImageItem(this._bookId, {super.key});
 
   @override
+  State<BookCoverImageItem> createState() => _BookCoverImageItemState();
+}
+
+class _BookCoverImageItemState extends State<BookCoverImageItem> {
+  Book? _book;
+
+  @override
+  void initState() {
+    super.initState();
+    _getBook(widget._bookId);
+  }
+
+  void _getBook(int bookId) async {
+    var book = await BookServices().getBook(bookId);
+    setState(() {
+      _book = book;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Text("Book ID: $_bookId");
-    //InkWell(
-    //onTap: () {},
-    //child: Ink.image(fit: BoxFit.cover, image: AssetImage(_book.coverUrl)),
-    //);
+    if (_book == null) {
+      return Center(child: CircularProgressIndicator());
+    }
+    return InkWell(
+      onTap: () {
+        _openBookDetails(_book!, context);
+      },
+      child: Ink.image(fit: BoxFit.cover, image: AssetImage(_book!.coverUrl)),
+    );
+  }
+
+  _openBookDetails(Book book, BuildContext context) {
+    Navigator.push(context,
+    MaterialPageRoute(builder: (context) => BookdetailScreen(book))
+    );
   }
 }
