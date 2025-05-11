@@ -33,7 +33,7 @@ class BookdetailScreen extends StatelessWidget {
             BookInfoDetailsWidget(_book.title, _book.author, _book.description),
             Padding(
               padding: const EdgeInsets.only(top: 45),
-              child: ButtonActionBookWidget(_book.id),
+              child: ButtonActionBookWidget(_book.id as int),
             ),
           ],
         ),

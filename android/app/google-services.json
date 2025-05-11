@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1002496402359",
+    "project_id": "library-app-5d805",
+    "storage_bucket": "library-app-5d805.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1002496402359:android:95618ff975f5b005a27e32",
+        "android_client_info": {
+          "package_name": "com.example.kola_library_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDM1EouuPElyVfge2PCCT5JwNTC6FuFSl8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

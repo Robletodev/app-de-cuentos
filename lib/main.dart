@@ -1,3 +1,5 @@
+//import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kola_library_app/Bookshelf/book_shelf.dart';
@@ -5,8 +7,11 @@ import 'package:kola_library_app/categorias/categories_screen.dart';
 import 'package:kola_library_app/pages/home_page.dart';
 import 'package:kola_library_app/states/book_shelf_state.dart';
 
-
-void main() => runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -14,16 +19,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-    create: (_) => BookShaelfBloc(BookShelfState([])),
-     child:  MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Koala Library',
-      home: Scaffold(
-        // desde aqui es donde incorporamos el manejador de esatdos con block
-        body: const BottonNavigationWidget(), 
-         
+      create: (_) => BookShaelfBloc(BookShelfState([])),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Koala Library',
+        home: Scaffold(
+          // desde aqui es donde incorporamos el manejador de esatdos con block
+          body: const BottonNavigationWidget(),
         ),
-    ));
+      ),
+    );
   }
 }
 
@@ -38,7 +43,6 @@ class BottonNavigationWidget extends StatefulWidget {
 class _BottonNavigationWidgetState extends State<BottonNavigationWidget> {
   // crearemos una pequeña variable para manejar el estado
   int _seletedIndex = 0;
-
 
   /////--- cracion de un listdo para las pantallas---///
   static final List<Widget> _sections = [
@@ -68,12 +72,27 @@ class _BottonNavigationWidgetState extends State<BottonNavigationWidget> {
       // esta seria la clase con estado que nos hara pasar a otra pantalla
       bottomNavigationBar: BottomNavigationBar(
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home, color: const Color.fromARGB(255, 110, 10, 135),), label: 'Home'),
           BottomNavigationBarItem(
-            icon: Icon(Icons.local_library,color: const Color.fromARGB(255, 91, 4, 120)),
+            icon: Icon(
+              Icons.home,
+              color: const Color.fromARGB(255, 110, 10, 135),
+            ),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.local_library,
+              color: const Color.fromARGB(255, 91, 4, 120),
+            ),
             label: 'My Library',
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.auto_stories, color: const Color.fromARGB(255, 112, 6, 141),), label: 'My Bookshelf'),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.auto_stories,
+              color: const Color.fromARGB(255, 112, 6, 141),
+            ),
+            label: 'My Bookshelf',
+          ),
         ],
         // integremos la variable de manejador de estado
         currentIndex: _seletedIndex,

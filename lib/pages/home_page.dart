@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> _getLastBooks() async {
     // este metodo se encargara de traer nuestros libros del server
-    var lastBook = await BookServices().getLastBook();
+    var lastBook = await BookServices().getLastBooks();
     setState(() {
       _books = lastBook;
     });

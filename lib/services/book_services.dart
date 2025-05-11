@@ -1,42 +1,39 @@
 // esta carpeta o calse tendra todos los request relacionados a los libros y sus llamdas al server
 
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:kola_library_app/models/book.dart';
 
 class BookServices {
+  // 1- crearemos una referencia desde lac ual al ser llamada mostrara los libros
 
-final List<Book> books = [
-    Book(
-      1,
-      'El Principito',
-      'Antoine de Saint-Exupéry',
-      'El principito es un texto escrito en el año de 1943 por el escritor frances Antoine de Saint-Exupéry, que relata la historia ficticia de un aviador y un niño que proviene de otro planeta; el cual podemos ver representa una realidad infantil con increíble creatividad en él y optimismo frente a la realidad que enfrenta.',
-      "assets/img/prince.jpg",
-    ),
-    Book(
-      2,
-      'La Tortuga y la Liebre',
-      'Eric Carle',
-      'Érase una vez una tortuga y un conejo que discutían sobre quién era más rápido. Pronto terminó la carrera, erigiéndose como el campeón indiscutible. El conejo despertó y se dio cuenta de que había perdido la carrera. La moraleja de la historia es que despacio y con constancia se gana la carrera',
-      'assets/img/tyl.jpg',
-    ),
-    Book(
-      2,
-      'JacK y las abichuelas magicas',
-      'Fernando Flein',
-      'Jack se embarcara en la mas grande de sus aventuras y descubrira un mundo magico llenos de peligros y valiosos tesoros junto a sus amigos se volvera una leyenda cazando gigantes y conquistando el corazon de la princesa de su reino',
-      'assets/img/jack.png',
-    ),
-  ];
+  final booksRef = FirebaseFirestore.instance
+      .collection('books')
+      .withConverter(
+        fromFirestore:
+            (snapshot, _) => Book.fromJson(snapshot.id, snapshot.data()!),
+        toFirestore: (book, _) => book.toJason(),
+      );
 
-  Future<List<Book>> getLastBook() async {
-    return Future.delayed(const Duration(seconds: 3))
-    .then((value) => Future.value(books.sublist(0,2)));
+  //2
+  Future<List<Book>> getLastBooks() async {
+    var result = await booksRef.limit((3)).get().then((value) => value);
+    List<Book> books = [];
+    // iteramos dentro de la lista para que puedar circular los documents o archivos que estan cargados en firebase
+    for (var doc in result.docs) {
+      books.add(doc.data());
+    }
+    return Future.value(books);
   }
 
-  Future<Book> getBook(int bookId) async {
-    return Future.delayed(const Duration(seconds: 3))
-    .then((value) => Future.value(
-      books.firstWhere((bookElement) => bookElement.id == bookId
-    )));
+  //3
+  Future<Book> getBook(String bookId) async {
+    var result = await booksRef.doc(bookId).get().then((value) => value);
+    if (result.exists) {
+      return Future.value(result.data());
+    } else {
+      throw HttpException('!!Sorry, Book no found!!');
+    }
   }
 }

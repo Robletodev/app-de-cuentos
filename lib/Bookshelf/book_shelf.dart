@@ -33,7 +33,7 @@ class Bookshaelf extends StatelessWidget {
             ),
             itemCount: bookshelfstate.bookIds.length,
             itemBuilder: (context, index) {
-              return BookCoverImageItem(bookshelfstate.bookIds[index]);
+              return BookCoverImageItem(bookshelfstate.bookIds[index] as String);
             },
           ),
         );
@@ -43,7 +43,7 @@ class Bookshaelf extends StatelessWidget {
 }
 
 class BookCoverImageItem extends StatefulWidget {
-  final int _bookId;
+  final String _bookId;
   const BookCoverImageItem(this._bookId, {super.key});
 
   @override
@@ -59,7 +59,7 @@ class _BookCoverImageItemState extends State<BookCoverImageItem> {
     _getBook(widget._bookId);
   }
 
-  void _getBook(int bookId) async {
+  void _getBook(String bookId) async {
     var book = await BookServices().getBook(bookId);
     setState(() {
       _book = book;
